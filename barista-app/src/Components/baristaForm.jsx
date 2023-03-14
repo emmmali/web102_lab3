@@ -1,5 +1,8 @@
 import React, {Component, useState} from "react";
 import RecipeChoices from "./recipeChoices";
+import drinksJson from "./drinks.json"
+
+
 const BaristaForm = () => {
 
   const [inputs, setInputs] = useState({
@@ -17,17 +20,55 @@ const BaristaForm = () => {
         'syrup': ['mocha', 'vanilla', 'toffee', 'maple', 'caramel', 'mint', 'other', 'none'],
         'milk': ['cow', 'oat', 'goat', 'almond','none'],
         'blended': ['yes', 'turbo', 'no'],
-
   }
+
+  const [currentDrink, setCurrentDrink] = useState("");
+
+  const [trueRecipe, setTrueRecipe] = useState({});
+
+  const getNextDrink = () => {
+
+        let randomDrinkIndex = Math.floor(Math.random() * drinksJson.drinks.length);
+
+        setCurrentDrink(drinksJson.drinks[randomDrinkIndex].name);
+        setTrueRecipe(drinksJson.drinks[randomDrinkIndex].ingredients);
+  };
 
   const onCheckAnswer = () => {};
 
-  const onNewDrink = () => {};
+  const onNewDrink = () => {
+
+        setInputs({
+           
+          'temperature':'',
+          'milk':'',
+          'syrup':'',
+          'blended':''
+
+        });
+
+        getNextDrink();
+  };
+
+  
   
   return (
     <div>
 
-        <h2>Hi, I'd like to order a:</h2>     
+        <h2>Hi, I'd like to order a:</h2> 
+
+        {/* Render current drink onto page for user to see. */}
+
+        <div className="drink-container">
+          <h2 className="mini-header">{currentDrink}</h2>
+          <button 
+             type="new-drink-button"
+             className="button newdrink"
+             onClick={onNewDrink}
+          >
+                🔄
+          </button>
+        </div>
 
         <form >
 
